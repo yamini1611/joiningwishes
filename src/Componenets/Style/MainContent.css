@@ -1,0 +1,50 @@
+#input {
+  width: 250px;
+  color: rgb(31, 27, 27);
+}
+
+#form {
+  border: solid;
+  border-color: aliceblue;
+  width: 550px;
+  height: 620px;
+}
+
+.bg-container {
+  background-image: Url("../Asset/Images/bg.jpg");
+  background-size: 100%;
+}
+#new-Joinee{
+    color: aliceblue;
+}
+@font-face {
+  font-family:font ;
+  src: url('../Asset/Fonts/Raleway-Regular.ttf');
+}
+
+*{
+  font-family:font;
+}
+#error
+{
+    color: red;
+}
+
+.floating-label-datepicker {
+  position: relative;
+  margin-bottom: 1em;
+}
+
+.floating-label-datepicker label {
+  position: absolute;
+  top: 0.5em;
+  left: 0.75em;
+  transition: transform 0.2s ease-out, font-size 0.2s ease-out;
+  pointer-events: none;
+}
+
+.floating-label-datepicker input:focus + label,
+.floating-label-datepicker input:not(:placeholder-shown) + label {
+  transform: translateY(-1.5em) scale(0.8);
+  font-size: 0.8em;
+}

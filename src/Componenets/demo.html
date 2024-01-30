@@ -1,0 +1,42 @@
+<html>
+    <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Mail Design</title>
+              <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet'
+                integrity='sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC' crossorigin='anonymous'>
+            <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js'
+                integrity='sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM'
+                crossorigin='anonymous'></script>
+        <style>
+            html, body { max-width: 100vw; }
+            .wrapper { position: relative; width: 100%; max-width: 100vw; height: 100%; min-height: 320px; }
+            .divimage { position: absolute; top: 0; left: 0; width: 100%; height: 60vw; }
+            .divtextone { position: absolute; top: 0%; left: 7%; right: 0%; padding: 28% 5em 0 5em; text-align: start; font-size: 1.6vw; color: #ffffff; font-family: 'Della Respira', serif; line-height: 1.4em; }
+            .divtextone .emp_name { font-family: 'Koulen', sans-serif; font-size: 2.6vw; }
+            .divtextone .designation { font-family: 'Didact Gothic', sans-serif; font-size: 1.6vw; }
+            .divtexttwo { position: absolute; top: 0%; left: 17%; right: 0%; padding: 43% 5em 0 5em; text-align: start; font-size: 1.6vw; color: #ffffff; font-family: 'Della Respira', serif; line-height: 1.4em; }
+            .divtexttwo p { width: 60%; }
+            @media (max-width: 576px) {
+                .divimage { position: absolute; top: 0; left: 0; width: 100%; height: 80vw; }
+                .divtextone { position: absolute; top: 0%; left: 7%; right: 0%; padding: 38% 5em 0 5em; text-align: start; font-size: 1.6vw; color: #ffffff; font-family: arial; line-height: 1.4em; }
+                .divtexttwo { position: absolute; top: 0%; left: 17%; right: 0%; padding: 58.5% 5em 0 5em; text-align: start; font-size: 1.6vw; color: #ffffff; font-family: arial; line-height: 1.4em; font-family: 'Della Respira', serif; }
+                .divtexttwo p { width: 59%; }
+            }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <img src='E:\Yamnini_backup\Yamini_backup\Dot Net programming\JoiningwishesAPI\JoiningwishesAPI\bin\Debug\net7.0\Asset\Images\WithoutProfile.png' class='divimage' alt='bgImage'>
+            <div class='divtextone'>
+                <p>
+                    <span class='emp_name text-uppercase'>Yamini</span><br />
+                    <span class='designation text-capitalize'>SDE</span><br />
+                </p>
+            </div>
+            <div class='divtexttwo'>
+                <p class='text-capitalize'>A warm welcome to our newest family member who joined us on <span>2024-01-08</span>. We're excited to have you on board!</p>
+            </div>
+        </div>
+    </body>
+    </html>
