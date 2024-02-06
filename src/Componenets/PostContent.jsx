@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { ApiPath } from "../Componenets/Context/utility";
-class MailwithPhoto extends Component {
+import { ApiPath } from "./Context/utility";
+
+class PostContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,4 +72,4 @@ class MailwithPhoto extends Component {
   }  
 }
 
-export default MailwithPhoto;
+export default PostContent;

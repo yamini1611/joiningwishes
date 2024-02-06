@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import "./Style/MainContent.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useJoiningContext } from "./Context/JoiningContext";
-import MailwithPhoto from "./MailwithPhoto";
+import PostContent from "./PostContent";
 import axios from "axios";
 import { format } from "date-fns";
 import { ApiPath } from "../Componenets/Context/utility";
@@ -102,7 +102,7 @@ const MainContent = () => {
 
       if (!employeePhoto) {
         updateFormData(values);
-        const mailWithPhotoInstance = new MailwithPhoto();
+        const mailWithPhotoInstance = new PostContent();
         await mailWithPhotoInstance.postHtmlToImage(
           values.employeeName,
           values.employeeDesignation,
@@ -121,7 +121,7 @@ const MainContent = () => {
         updateFormData(values);
 
         setTimeout(() => {
-          const mailWithPhotoInstance = new MailwithPhoto();
+          const mailWithPhotoInstance = new PostContent();
           mailWithPhotoInstance.postHtmlToImagewithImage(
             values.employeeName,
             values.employeeDesignation,

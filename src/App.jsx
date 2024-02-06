@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MainContent from "./Componenets/MainContent";
-import MailwithPhoto from "./Componenets/MailwithPhoto";
+import MailwithPhoto from "./Componenets/PostContent";
 
 const App = () => {
   return (
