@@ -26,9 +26,7 @@ const MainContent = () => {
 
   const handleEmployeeId = async (employeeid, setFieldValue) => {
     try {
-      const response = await axios.post(
-        `${ApiPathValue}/${employeeid}`
-      );
+      const response = await axios.post(`${ApiPathValue}/${employeeid}`);
 
       if (response.data) {
         const trimmedEmployeeNumber = String(
@@ -49,6 +47,9 @@ const MainContent = () => {
         setFieldValue("employeeNumber", "0");
         setEmployeeFound(false);
         toast.error("Employee not found");
+
+        console.log(employeePhoto);
+        console.log(employeeFound);
       }
     } catch (error) {
       console.error("Error in handleEmployeeId:", error);
@@ -164,30 +165,28 @@ const MainContent = () => {
                       New Joinee Detail
                     </h3>
                     <Row className="mb-3">
-                      
-                        <FloatingLabel
-                          label="Enter Employee Number"
-                          className="ps-1 mb-3"
-                        >
-                          <Field
-                            type="text"
-                            name="employeeNumber"
-                            as={Form.Control}
-                            placeholder="Employee Number"
-                            onBlur={(e) => {
-                              if (e.target.value.length >= 4) {
-                                handleEmployeeId(e.target.value, setFieldValue);
-                              }
-                            }}
-                          />
-                          <ErrorMessage
-                            id="error"
-                            name="employeeNumber"
-                            component="div"
-                            className="error-message"
-                          />
-                        </FloatingLabel>
-                     
+                      <FloatingLabel
+                        label="Enter Employee Number"
+                        className="ps-1 mb-3"
+                      >
+                        <Field
+                          type="text"
+                          name="employeeNumber"
+                          as={Form.Control}
+                          placeholder="Employee Number"
+                          onBlur={(e) => {
+                            if (e.target.value.length >= 4) {
+                              handleEmployeeId(e.target.value, setFieldValue);
+                            }
+                          }}
+                        />
+                        <ErrorMessage
+                          id="error"
+                          name="employeeNumber"
+                          component="div"
+                          className="error-message"
+                        />
+                      </FloatingLabel>
                     </Row>
 
                     <Row className="mb-3">
