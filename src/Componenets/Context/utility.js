@@ -1,0 +1,1 @@
+export const ApiPath = 'https://localhost:44358/api/Wishes';

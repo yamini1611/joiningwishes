@@ -5,15 +5,65 @@ import * as Yup from "yup";
 import "./Style/MainContent.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useJoiningContext } from "./Context/JoiningContext";
-import { useNavigate } from "react-router-dom";
 import MailwithPhoto from "./MailwithPhoto";
+import axios from "axios";
+import { format } from "date-fns";
+import { ApiPath } from "../Componenets/Context/utility";
 
 const MainContent = () => {
   const [employeePhoto, setEmployeePhoto] = useState(null);
   const [fileSizeError, setFileSizeError] = useState(null);
   const { updateFormData } = useJoiningContext();
   const [FormSubmitted, setFormSubmitted] = useState(false);
-  const navigate = useNavigate();
+  const [employeeFound, setEmployeeFound] = useState(true);
+  const ApiPathValue = ApiPath;
+  const [employee, setEmployee] = useState({
+    EmployeeNumber: "",
+    EmployeeName: "",
+    EmployeeDesignation: "",
+    EmployeejoiningDate: "",
+  });
+
+  const handleEmployeeId = async (employeeid, setFieldValue) => {
+    try {
+      const response = await axios.post(
+        `${ApiPathValue}/${employeeid}`
+      );
+
+      if (response.data) {
+        const trimmedEmployeeNumber = String(
+          response.data.employeeNumber
+        ).trim();
+
+        setFieldValue("employeeNumber", trimmedEmployeeNumber);
+        setFieldValue("employeeName", response.data.employeeDisplayName);
+        setFieldValue("employeeDesignation", response.data.designation);
+        setFieldValue(
+          "joiningdate",
+          format(new Date(response.data.employeeDateOfJoining), "yyyy-MM-dd")
+        );
+        setEmployee(response.data);
+        toast.success("Employee Found!");
+        setEmployeeFound(true);
+      } else {
+        setFieldValue("employeeNumber", "0");
+        setEmployeeFound(false);
+        toast.error("Employee not found");
+      }
+    } catch (error) {
+      console.error("Error in handleEmployeeId:", error);
+
+      if (error.response && error.response.status === 404) {
+        setFieldValue("employeeNumber", "Employee Not Found");
+        setEmployeeFound(false);
+        toast.error("Employee not found");
+      } else {
+        setFieldValue("employeeNumber", "");
+        setEmployeeFound(false);
+        toast.error("Error fetching employee data. Please try again.");
+      }
+    }
+  };
 
   const handleFileChange = (event, setFieldValue) => {
     const file = event.target.files[0];
@@ -32,38 +82,59 @@ const MainContent = () => {
       }
     }
   };
+
   const validationSchema = Yup.object().shape({
     employeeName: Yup.string().required("Employee Name is required"),
     employeeDesignation: Yup.string().required(
       "Employee Designation is required"
     ),
-    joiningdate: Yup.string().required("Joining Date is required"),
+    joiningdate: Yup.date()
+      .required("Joining date is required")
+      .max(new Date(), "Joining date cannot be in the future"),
+    employeeNumber: Yup.string()
+      .required("Employee number is required")
+      .matches(/^[0-9]+$/, "Employee number should only contain digits"),
   });
+
   const handleSubmit = async (values) => {
-    
     try {
-      updateFormData(values);
-      setFormSubmitted(true);
-      toast.success("Submitted Successfully, Mail will be sent shortly", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      const employeeName = localStorage.getItem("employeeName");
-      const employeeDesignation = localStorage.getItem("employeeDesignation");
-      const joiningdate = localStorage.getItem("joiningdate");
-      const mailWithPhotoInstance = new MailwithPhoto();
-  
-      await mailWithPhotoInstance.postHtmlToImage(employeeName ,employeeDesignation ,joiningdate);
-  
-      setFormSubmitted(false);
-      console.log(values);
-      
+      const { employeePhoto } = values;
+
+      if (!employeePhoto) {
+        updateFormData(values);
+        const mailWithPhotoInstance = new MailwithPhoto();
+        await mailWithPhotoInstance.postHtmlToImage(
+          values.employeeName,
+          values.employeeDesignation,
+          values.joiningdate
+        );
+      } else {
+        console.log(employeePhoto);
+        setFormSubmitted(true);
+        toast.success("Submitted Successfully, Mail will be sent shortly", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        setFormSubmitted(false);
+
+        console.log("employee photo in MainContent", employeePhoto);
+        updateFormData(values);
+
+        setTimeout(() => {
+          const mailWithPhotoInstance = new MailwithPhoto();
+          mailWithPhotoInstance.postHtmlToImagewithImage(
+            values.employeeName,
+            values.employeeDesignation,
+            values.joiningdate,
+            employeePhoto
+          );
+        }, 1000);
+      }
     } catch (error) {
       console.error("Error in handleSubmit:", error);
     }
   };
-  
+
   return (
     <div className="bg-container">
       <div className="container-fluid vh-100">
@@ -78,9 +149,10 @@ const MainContent = () => {
             <div className="col-12 ">
               <Formik
                 initialValues={{
-                  employeeName: "",
-                  employeeDesignation: "",
-                  employeeID: "",
+                  employeeNumber: employee.EmployeeNumber || "",
+                  employeeName: employee.EmployeeName || "",
+                  employeeDesignation: employee.EmployeeDesignation || "",
+                  joiningdate: employee.EmployeejoiningDate || "",
                   employeePhoto: null,
                 }}
                 validationSchema={validationSchema}
@@ -91,6 +163,33 @@ const MainContent = () => {
                     <h3 className="text-center" id="new-Joinee">
                       New Joinee Detail
                     </h3>
+                    <Row className="mb-3">
+                      
+                        <FloatingLabel
+                          label="Enter Employee Number"
+                          className="ps-1 mb-3"
+                        >
+                          <Field
+                            type="text"
+                            name="employeeNumber"
+                            as={Form.Control}
+                            placeholder="Employee Number"
+                            onBlur={(e) => {
+                              if (e.target.value.length >= 4) {
+                                handleEmployeeId(e.target.value, setFieldValue);
+                              }
+                            }}
+                          />
+                          <ErrorMessage
+                            id="error"
+                            name="employeeNumber"
+                            component="div"
+                            className="error-message"
+                          />
+                        </FloatingLabel>
+                     
+                    </Row>
+
                     <Row className="mb-3">
                       <FloatingLabel
                         label="Enter Employee Name"

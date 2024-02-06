@@ -6,8 +6,8 @@
 #form {
   border: solid;
   border-color: aliceblue;
-  width: 550px;
-  height: 620px;
+  width: 560px;
+  height: 680px;
 }
 
 .bg-container {
@@ -17,6 +17,11 @@
 #new-Joinee{
     color: aliceblue;
 }
+.clickable-text {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 @font-face {
   font-family:font ;
   src: url('../Asset/Fonts/Raleway-Regular.ttf');
